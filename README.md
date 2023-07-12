@@ -25,6 +25,10 @@ TODO: dockerise
 
 ```go
 type UserModel struct {
-
+	Id     string `gorm:"primaryKey;not null"`           // primary key
+	Wins   int    `gorm:"default:0;type:int;not null"`   // wins, default 0, int, not null
+	Losses int    `gorm:"default:0;type:int;not null"`   // losses, default 0, int, not null
+	Draws  int    `gorm:"default:0;type:int;not null"`   // draws, default 0, int, not null
+	Elo    int    `gorm:"default:500;type:int;not null"` // elo, default 500, int, not null
 }
 ```
