@@ -1,7 +1,7 @@
 # **`cordle-api`**
 
 ![GitHub go.mod Go version (subdirectory of monorepo)](https://img.shields.io/github/go-mod/go-version/cordle-bot/cordle-api?style=flat-square)
-![Static Badge](https://img.shields.io/badge/docs%20-%20go?style=flat-square&label=Go&link=https://pkg.go.dev/github.com/cordle-bot/cordle-api)
+![Static Badge <href ="https://pkg.go.dev/github.com/cordle-bot/cordle-api">](https://img.shields.io/badge/docs%20-%20go?style=flat-square&label=Go&link=https://pkg.go.dev/github.com/cordle-bot/cordle-api)
 
 API for Cordle Bot
 
