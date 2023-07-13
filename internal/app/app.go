@@ -5,8 +5,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/CordleBot/cordle-api/internal/router"
-	"github.com/CordleBot/cordle-api/pkg/util"
+	"github.com/cordle-bot/cordle-api/internal/router"
+	"github.com/cordle-bot/cordle-api/pkg/util"
 
 	"github.com/joho/godotenv"
 )

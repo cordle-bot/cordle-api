@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/CordleBot/cordle-api/pkg/util"
+	"github.com/cordle-bot/cordle-api/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )

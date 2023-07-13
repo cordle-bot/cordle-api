@@ -1,4 +1,4 @@
-module github.com/CordleBot/cordle-api
+module github.com/cordle-bot/cordle-api
 
 go 1.20
 

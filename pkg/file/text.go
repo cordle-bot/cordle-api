@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/CordleBot/cordle-api/pkg/util"
+	"github.com/cordle-bot/cordle-api/pkg/util"
 )
 
 func CreateFile(dir string) error {

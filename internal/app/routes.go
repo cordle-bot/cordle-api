@@ -5,9 +5,9 @@ import (
 	"net/http/httputil"
 	"net/url"
 
-	"github.com/CordleBot/cordle-api/internal/router"
+	"github.com/cordle-bot/cordle-api/internal/router"
 
-	"github.com/CordleBot/cordle-api/internal/handlers"
+	"github.com/cordle-bot/cordle-api/internal/handlers"
 
 	"github.com/gin-gonic/gin"
 )
