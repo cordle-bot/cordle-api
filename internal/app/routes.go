@@ -25,6 +25,14 @@ func makeRoutes() *router.Routes {
 				Handler:     "",
 				HandlerFunc: handlers.PingGet(),
 			},
+			// Guild Handlers
+			{
+				Name:        "GetGuild",
+				Method:      router.Get,
+				Path:        "/guild",
+				Handler:     "",
+				HandlerFunc: handlers.GuildGet(),
+			},
 		},
 	}
 }
