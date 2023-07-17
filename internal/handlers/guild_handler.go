@@ -15,7 +15,7 @@ import (
 
 func GuildGet() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		i := c.Query("id")
+		i := c.Param("guild")
 		url := fmt.Sprintf("https://discord.com/api/guilds/%s?with_counts=true", i)
 
 		client := http.Client{

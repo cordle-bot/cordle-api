@@ -30,7 +30,7 @@ func makeRoutes() *router.Routes {
 				Name:        "GetGuild",
 				Method:      router.Get,
 				Path:        "/guild",
-				Handler:     "",
+				Handler:     "/:guild",
 				HandlerFunc: handlers.GuildGet(),
 			},
 		},
