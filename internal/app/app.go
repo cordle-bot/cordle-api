@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/cordle-bot/cordle-api/internal/middleware"
 	"github.com/cordle-bot/cordle-api/internal/router"
 	"github.com/cordle-bot/cordle-api/pkg/util"
 
@@ -27,8 +28,8 @@ func Run() {
 	util.ErrOut(err)
 
 	r = router.MakeRouter()
-	//r.Use(middleware.MakeAuth())
-	r.RegisterRoutes(*makeRoutes())
+	r.Use(middleware.MakeAuth())
+	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
 	r.Run()
 

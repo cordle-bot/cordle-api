@@ -7,6 +7,7 @@ const (
 	Undefined Method = iota // 0
 	Get                     // 1
 	Post                    // 2
-	Patch                   // 3
-	Delete                  // 4
+	Put                     // 3
+	Patch                   // 4
+	Delete                  // 5
 )

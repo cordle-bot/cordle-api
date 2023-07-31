@@ -47,6 +47,8 @@ func (r *Router) RegisterRoutes(rl Routes) {
 			r.Engine.GET(route.Path+route.Handler, route.HandlerFunc)
 		case Post:
 			r.Engine.POST(route.Path+route.Handler, route.HandlerFunc)
+		case Put:
+			r.Engine.PUT(route.Path+route.Handler, route.HandlerFunc)
 		case Patch:
 			r.Engine.PATCH(route.Path+route.Handler, route.HandlerFunc)
 		case Delete:

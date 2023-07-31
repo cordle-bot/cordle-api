@@ -14,12 +14,12 @@ import (
 
 // The makeRoutes method returns a pointer to a Routes struct,
 // which stores a slice of Route.
-func makeRoutes() *router.Routes {
-	return &router.Routes{
+func makeRoutes() router.Routes {
+	return router.Routes{
 		RouteInfo: []router.Route{
 			// Ping Handlers
 			{
-				Name:        "GetPing",
+				Name:        "Ping Get",
 				Method:      router.Get,
 				Path:        "/ping",
 				Handler:     "",
@@ -27,11 +27,55 @@ func makeRoutes() *router.Routes {
 			},
 			// Guild Handlers
 			{
-				Name:        "GetGuild",
+				Name:        "Guild Get",
 				Method:      router.Get,
 				Path:        "/guild",
 				Handler:     "/:guild",
 				HandlerFunc: handlers.GuildGet(),
+			},
+			// User Handlers
+			{
+				Name:        "User Get",
+				Method:      router.Get,
+				Path:        "/user",
+				Handler:     "/:user",
+				HandlerFunc: handlers.UserGet(),
+			},
+			{
+				Name:        "User Post",
+				Method:      router.Post,
+				Path:        "/user",
+				Handler:     "",
+				HandlerFunc: handlers.UserPost(),
+			},
+			{
+				Name:        "User Put",
+				Method:      router.Put,
+				Path:        "/user",
+				Handler:     "",
+				HandlerFunc: handlers.UserPut(),
+			},
+			{
+				Name:        "User Patch",
+				Method:      router.Patch,
+				Path:        "/user",
+				Handler:     "",
+				HandlerFunc: handlers.UserPatch(),
+			},
+			{
+				Name:        "User Delete",
+				Method:      router.Delete,
+				Path:        "/user",
+				Handler:     "/:user",
+				HandlerFunc: handlers.UserDelete(),
+			},
+			// Leaderboard Handlers
+			{
+				Name:        "Leaderboard Get",
+				Method:      router.Get,
+				Path:        "/leaderboard",
+				Handler:     "",
+				HandlerFunc: handlers.LeaderboardGet(),
 			},
 		},
 	}

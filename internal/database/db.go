@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"sync"
 
 	"github.com/cordle-bot/cordle-api/pkg/util"
 	"gorm.io/driver/postgres"
@@ -13,8 +12,7 @@ import (
 
 // Storers a *gorm.DB and its mutex.
 type Storer struct {
-	db   *gorm.DB
-	dbMu sync.Mutex
+	db *gorm.DB
 }
 
 // Make a new Storer.
@@ -30,9 +28,6 @@ func New() *Storer {
 //
 // If not connected an error will be returned.
 func (s *Storer) Ping() error {
-	s.dbMu.Lock()
-	defer s.dbMu.Unlock()
-
 	ctx := context.Background()
 	db, err := s.db.DB()
 	if err != nil {
