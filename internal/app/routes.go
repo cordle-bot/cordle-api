@@ -23,7 +23,7 @@ func makeRoutes() router.Routes {
 				Method:      router.Get,
 				Path:        "/ping",
 				Handler:     "",
-				HandlerFunc: handlers.PingGet(),
+				HandlerFunc: handlers.PingGet(s),
 			},
 			// Guild Handlers
 			{

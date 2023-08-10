@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/cordle-bot/cordle-api/internal/database"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,8 +11,12 @@ import (
 //
 // Example usage:
 //   - /ping : returns {"ping":"pong"}.
-func PingGet() gin.HandlerFunc {
+func PingGet(s *database.Storer) gin.HandlerFunc {
 	resp := "pong"
+	err := s.Ping()
+	if err != nil {
+		resp = "err"
+	}
 
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

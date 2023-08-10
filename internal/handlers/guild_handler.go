@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -34,11 +33,8 @@ func GuildGet() gin.HandlerFunc {
 			defer res.Body.Close()
 		}
 
-		body, err := ioutil.ReadAll(res.Body)
-		util.LogErr(err)
-
-		g := models.Guild{}
-		err = json.Unmarshal(body, &g)
+		var g models.Guild
+		err = json.NewDecoder(res.Body).Decode(&g)
 		util.LogErr(err)
 
 		c.JSON(http.StatusOK, g)

@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/cordle-bot/cordle-api/internal/database"
 	"github.com/cordle-bot/cordle-api/internal/middleware"
 	"github.com/cordle-bot/cordle-api/internal/router"
 	"github.com/cordle-bot/cordle-api/pkg/util"
@@ -15,8 +16,10 @@ import (
 // Stores the router
 var r *router.Router
 
+// Stores the DB
+var s *database.Storer
+
 // Runs the app
-//
 //   - Creates the router.
 //   - Registers routes.
 //   - Runs the engine.
@@ -27,7 +30,9 @@ func Run() {
 	err := godotenv.Load()
 	util.ErrOut(err)
 
-	r = router.MakeRouter()
+	s = database.New()
+
+	r = router.New()
 	r.Use(middleware.MakeAuth())
 	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
