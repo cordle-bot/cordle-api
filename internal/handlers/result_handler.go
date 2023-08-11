@@ -31,3 +31,28 @@ func ResultDelete() gin.HandlerFunc {
 
 	}
 }
+
+// /result/win/:winner/:loser
+func ResultPostWin() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+	}
+}
+
+// /result/loss/:loser/:winner
+func ResultPostLoss() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+	}
+}
+
+// /result/draw/:player/:player
+func ResultPostDraw() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+	}
+}
+
+func calculateResult(w string, l string) error {
+	return nil
+}

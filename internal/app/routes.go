@@ -77,6 +77,7 @@ func makeRoutes() router.Routes {
 				Handler:     "",
 				HandlerFunc: handlers.LeaderboardGet(),
 			},
+			// Result Handlers
 		},
 	}
 }
