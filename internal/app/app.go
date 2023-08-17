@@ -17,7 +17,7 @@ import (
 var r *router.Router
 
 // Stores the DB
-var s *database.Storer
+var s *database.Store
 
 // Runs the app
 //   - Creates the router.

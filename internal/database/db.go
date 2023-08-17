@@ -10,16 +10,20 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	UsersTable = "users"
+)
+
 // Storers a *gorm.DB and its mutex.
-type Storer struct {
+type Store struct {
 	db *gorm.DB
 }
 
 // Make a new Storer.
 //
 // *gorm.DB is made from .env - follow .env.example pattern.
-func New() *Storer {
-	return &Storer{
+func New() *Store {
+	return &Store{
 		db: makeDb(),
 	}
 }
@@ -27,7 +31,7 @@ func New() *Storer {
 // Ping the storer.
 //
 // If not connected an error will be returned.
-func (s *Storer) Ping() error {
+func (s *Store) Ping() error {
 	ctx := context.Background()
 	db, err := s.db.DB()
 	if err != nil {
@@ -36,6 +40,10 @@ func (s *Storer) Ping() error {
 
 	err = db.PingContext(ctx)
 	return err
+}
+
+func (s *Store) CreateTable(n string, t string) error {
+	return nil
 }
 
 // Creates a pointer to a gorm db.

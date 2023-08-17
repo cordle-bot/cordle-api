@@ -11,7 +11,7 @@ import (
 //
 // Example usage:
 //   - /ping : returns {"ping":"pong"}.
-func PingGet(s *database.Storer) gin.HandlerFunc {
+func PingGet(s *database.Store) gin.HandlerFunc {
 	resp := "pong"
 	err := s.Ping()
 	if err != nil {

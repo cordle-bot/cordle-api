@@ -8,7 +8,7 @@ type UserModel struct {
 	Elo    int    `gorm:"default:500;type:int;not null"` // elo, default 500, int, not null
 }
 
-func (u *UserModel) ToUserPost() UserPost {
+func (u *UserModel) ToPost() UserPost {
 	return UserPost{
 		Id:     u.Id,
 		Wins:   u.Wins,
@@ -37,7 +37,7 @@ type UserPost struct {
 	Elo    int    `json:"elo"`
 }
 
-func (u *UserPost) ToUserModel() UserModel {
+func (u *UserPost) ToModel() UserModel {
 	return UserModel{
 		Id:     u.Id,
 		Wins:   u.Wins,
