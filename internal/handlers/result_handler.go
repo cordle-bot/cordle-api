@@ -1,58 +1,96 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
 
-func ResultGet() gin.HandlerFunc {
+	"github.com/cordle-bot/cordle-api/internal/database"
+	"github.com/gin-gonic/gin"
+)
+
+// /result/win/:guild/:winner/:loser
+func ResultPostWin(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		guild := c.Param("guild")
+		w := c.Param("winner")
+		l := c.Param("loser")
 
+		if !checkPlayers(s, w, l, guild) {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		err := calculateWin(s, w, l, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		c.Status(http.StatusNoContent)
 	}
 }
 
-func ResultPost() gin.HandlerFunc {
+// /result/loss/:guild/:loser/:winner
+func ResultPostLoss(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		guild := c.Param("guild")
+		l := c.Param("loser")
+		w := c.Param("winner")
 
+		if !checkPlayers(s, w, l, guild) {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		err := calculateWin(s, w, l, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		c.Status(http.StatusNoContent)
 	}
 }
 
-func ResultPut() gin.HandlerFunc {
+// /result/draw/:guild/:one/:two
+func ResultPostDraw(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		guild := c.Param("guild")
+		o := c.Param("one")
+		t := c.Param("two")
 
+		if !checkPlayers(s, o, t, guild) {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		err := calculateDraw(s, o, t, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		c.Status(http.StatusNoContent)
 	}
 }
 
-func ResultPatch() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
+func checkPlayers(s *database.Store, o string, t string, g string) bool {
+	e := s.CheckUser(o, g)
+	if !e {
+		return e
 	}
+
+	e = s.CheckUser(t, g)
+	if !e {
+		return e
+	}
+
+	return true
 }
 
-func ResultDelete() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
+func calculateWin(s *database.Store, w string, l string, g string) error {
+	return nil
 }
 
-// /result/win/:winner/:loser
-func ResultPostWin() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-// /result/loss/:loser/:winner
-func ResultPostLoss() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-// /result/draw/:player/:player
-func ResultPostDraw() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-func calculateResult(w string, l string) error {
+func calculateDraw(s *database.Store, o string, t string, g string) error {
 	return nil
 }
