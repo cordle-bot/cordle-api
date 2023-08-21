@@ -85,6 +85,27 @@ func makeRoutes() router.Routes {
 				HandlerFunc: handlers.LeaderboardGet(s),
 			},
 			// Result Handlers
+			{
+				Name:        "Result Win Post",
+				Method:      router.Post,
+				Path:        "/result/win",
+				Handler:     "/:winner/:loser",
+				HandlerFunc: handlers.ResultPostWin(s),
+			},
+			{
+				Name:        "Result Loss Post",
+				Method:      router.Post,
+				Path:        "/result/win",
+				Handler:     "/:loser/:winner",
+				HandlerFunc: handlers.ResultPostLoss(s),
+			},
+			{
+				Name:        "Result Draw Post",
+				Method:      router.Post,
+				Path:        "/result/win",
+				Handler:     "/:one/:two",
+				HandlerFunc: handlers.ResultPostDraw(s),
+			},
 		},
 	}
 }

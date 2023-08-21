@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// /leaderboard/:guild
 func LeaderboardGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")

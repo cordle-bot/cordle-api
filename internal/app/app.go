@@ -9,6 +9,7 @@ import (
 	"github.com/cordle-bot/cordle-api/internal/middleware"
 	"github.com/cordle-bot/cordle-api/internal/router"
 	"github.com/cordle-bot/cordle-api/pkg/util"
+	"github.com/gin-contrib/cors"
 
 	"github.com/joho/godotenv"
 )
@@ -35,6 +36,7 @@ func Run() {
 	r = router.New()
 	r.Use(middleware.MakeAuth())
 	r.RegisterRoutes(makeRoutes())
+	r.Use(cors.Default())
 	r.NoRoute(reverseProxy())
 	r.Run()
 

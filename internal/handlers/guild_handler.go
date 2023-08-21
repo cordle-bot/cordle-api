@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// /guild/:guild
 func GuildGet() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		i := c.Param("guild")

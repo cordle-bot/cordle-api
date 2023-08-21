@@ -19,9 +19,9 @@ func UserList(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		r := make([]models.UserPost, len(l))
-		for i, user := range l {
-			r[i] = user.ToPost()
+		r := make([]models.UserPost, 0)
+		for _, user := range l {
+			r = append(r, user.ToPost())
 		}
 
 		c.JSON(http.StatusOK, r)
@@ -57,7 +57,7 @@ func UserPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")
 		b := models.UserPost{}
-		c.Bind(&b)
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckUser(m.Id, guild)
@@ -81,7 +81,7 @@ func UserPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")
 		b := models.UserPost{}
-		c.Bind(&b)
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckUser(m.Id, guild)
@@ -106,11 +106,12 @@ func UserPut(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// /user/:guild
 func UserPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")
 		b := models.UserPost{}
-		c.Bind(&b)
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckUser(m.Id, guild)
@@ -129,6 +130,7 @@ func UserPatch(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// /user/:guild/:user
 func UserDelete(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")
