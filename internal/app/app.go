@@ -7,6 +7,7 @@ import (
 
 	"github.com/cordle-bot/cordle-api/internal/database"
 	"github.com/cordle-bot/cordle-api/internal/middleware"
+	"github.com/cordle-bot/cordle-api/internal/models"
 	"github.com/cordle-bot/cordle-api/internal/router"
 	"github.com/cordle-bot/cordle-api/pkg/util"
 	"github.com/gin-contrib/cors"
@@ -31,7 +32,7 @@ func Run() {
 	err := godotenv.Load()
 	util.ErrOut(err)
 
-	s = database.New()
+	s = database.New(database.MakeSQLiteDb())
 
 	r = router.New()
 	r.Use(middleware.MakeAuth())

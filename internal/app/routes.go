@@ -95,14 +95,14 @@ func makeRoutes() router.Routes {
 			{
 				Name:        "Result Loss Post",
 				Method:      router.Post,
-				Path:        "/result/win",
+				Path:        "/result/loss",
 				Handler:     "/:loser/:winner",
 				HandlerFunc: handlers.ResultPostLoss(s),
 			},
 			{
 				Name:        "Result Draw Post",
 				Method:      router.Post,
-				Path:        "/result/win",
+				Path:        "/result/draw",
 				Handler:     "/:one/:two",
 				HandlerFunc: handlers.ResultPostDraw(s),
 			},

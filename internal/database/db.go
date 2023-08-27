@@ -7,6 +7,7 @@ import (
 
 	"github.com/cordle-bot/cordle-api/pkg/util"
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -19,12 +20,14 @@ type Store struct {
 	db *gorm.DB
 }
 
+type DbMaker func() *gorm.DB
+
 // Make a new Storer.
 //
 // *gorm.DB is made from .env - follow .env.example pattern.
-func New() *Store {
+func New(m DbMaker) *Store {
 	return &Store{
-		db: makeDb(),
+		db: m(),
 	}
 }
 
@@ -42,8 +45,9 @@ func (s *Store) Ping() error {
 	return err
 }
 
-func (s *Store) CreateTable(n string, t string) error {
-	return nil
+func (s *Store) CreateTable(n string, m interface{}) error {
+	err := s.db.Table(n).AutoMigrate(m)
+	return err
 }
 
 // Creates a pointer to a gorm db.
@@ -58,8 +62,9 @@ func (s *Store) CreateTable(n string, t string) error {
 //   - DB_USER : stores the username
 //   - DB_PASS : stores the password
 //   - DB_NAME : stores the database name
-func makeDb() *gorm.DB {
-	dsn := fmt.Sprintf(`
+func MakePostgresDb() DbMaker {
+	return func() *gorm.DB {
+		dsn := fmt.Sprintf(`
 		host=%s 
 		user=%s 
 		password=%s 
@@ -67,15 +72,24 @@ func makeDb() *gorm.DB {
 		port=%s 
 		sslmode=disable 
 		TimeZone=Europe/London`,
-		os.Getenv("DB_ADDR"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASS"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-	)
+			os.Getenv("DB_ADDR"),
+			os.Getenv("DB_USER"),
+			os.Getenv("DB_PASS"),
+			os.Getenv("DB_NAME"),
+			os.Getenv("DB_PORT"),
+		)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	util.ErrOut(err)
+		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		util.ErrOut(err)
 
-	return db
+		return db
+	}
+}
+
+func MakeSQLiteDb() DbMaker {
+	return func() *gorm.DB {
+		db, err := gorm.Open(sqlite.Open(os.Getenv("SQLITE_DB")), &gorm.Config{})
+		util.ErrOut(err)
+		return db
+	}
 }

@@ -13,6 +13,12 @@ func UserList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")
 
+		err := initGuild(s, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
 		l, err := s.ListUsers(guild)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
@@ -33,6 +39,12 @@ func UserGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guild := c.Param("guild")
 		user := c.Param("user")
+
+		err := initGuild(s, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
 
 		e := s.CheckUser(user, guild)
 		if !e {
@@ -60,13 +72,19 @@ func UserPost(s *database.Store) gin.HandlerFunc {
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
+		err := initGuild(s, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
 		e := s.CheckUser(m.Id, guild)
 		if e {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		err := s.AddUser(m, guild)
+		err = s.AddUser(m, guild)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -84,6 +102,12 @@ func UserPut(s *database.Store) gin.HandlerFunc {
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
+		err := initGuild(s, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
 		e := s.CheckUser(m.Id, guild)
 		if !e {
 			err := s.AddUser(m, guild)
@@ -96,7 +120,7 @@ func UserPut(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		err := s.UpdateUser(m, guild)
+		err = s.UpdateUser(m, guild)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -114,13 +138,19 @@ func UserPatch(s *database.Store) gin.HandlerFunc {
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
+		err := initGuild(s, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
 		e := s.CheckUser(m.Id, guild)
 		if !e {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		err := s.UpdateUser(m, guild)
+		err = s.UpdateUser(m, guild)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -136,12 +166,18 @@ func UserDelete(s *database.Store) gin.HandlerFunc {
 		guild := c.Param("guild")
 		user := c.Param("user")
 
+		err := initGuild(s, guild)
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
 		e := s.CheckUser(user, guild)
 		if !e {
 			c.Status(http.StatusNotFound)
 		}
 
-		err := s.DeleteUser(user, guild)
+		err = s.DeleteUser(user, guild)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -149,4 +185,9 @@ func UserDelete(s *database.Store) gin.HandlerFunc {
 
 		c.Status(http.StatusOK)
 	}
+}
+
+func initGuild(s *database.Store, n string) error {
+	err := s.CreateTable(n, &models.UserModel{})
+	return err
 }
