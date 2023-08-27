@@ -7,7 +7,6 @@ import (
 
 	"github.com/cordle-bot/cordle-api/internal/database"
 	"github.com/cordle-bot/cordle-api/internal/middleware"
-	"github.com/cordle-bot/cordle-api/internal/models"
 	"github.com/cordle-bot/cordle-api/internal/router"
 	"github.com/cordle-bot/cordle-api/pkg/util"
 	"github.com/gin-contrib/cors"
