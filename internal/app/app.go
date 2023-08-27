@@ -1,9 +1,11 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/cordle-bot/cordle-api/internal/database"
 	"github.com/cordle-bot/cordle-api/internal/middleware"
@@ -28,6 +30,8 @@ var s *database.Store
 func Run() {
 	log.Println("Starting app")
 
+	go shutdown()
+
 	err := godotenv.Load()
 	util.ErrOut(err)
 
@@ -39,9 +43,19 @@ func Run() {
 	r.Use(cors.Default())
 	r.NoRoute(reverseProxy())
 	r.Run()
+}
 
+func shutdown() {
 	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
+
 	<-stop
+	fmt.Println("")
 	log.Println("Shutting down app")
+
+	log.Println("Closing db conn")
+	err := s.Close()
+	util.ErrLog(err)
+
+	os.Exit(0)
 }
