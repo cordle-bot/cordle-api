@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/cordle-bot/cordle-api/internal/decorators"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,11 +13,12 @@ import (
 //   - HandlerFunc : gin.Handlerfunc,
 //     stores the method that occurs when this route is queried.
 type Route struct {
-	Name        string          // Route name
-	Method      Method          // Route method
-	Path        string          // Route path
-	Handler     string          // Route Handler
-	HandlerFunc gin.HandlerFunc // Route Handler Function
+	Name          string                  // Route name
+	Method        Method                  // Route method
+	Path          string                  // Route path
+	Params        string                  // Route Handler
+	HandlerFunc   gin.HandlerFunc         // Route Handler Function
+	DecoratorFunc decorators.DecorateFunc // Route Decorator Function
 }
 
 // Routes stores a slice of the Route struct.

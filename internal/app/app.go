@@ -35,13 +35,16 @@ func Run() {
 	err := godotenv.Load()
 	util.ErrOut(err)
 
+	log.Println("Connecting to DB")
 	s = database.New(database.MakeSQLiteDb())
 
+	log.Println("Starting Router")
 	r = router.New()
 	r.Use(middleware.MakeAuth())
-	r.RegisterRoutes(makeRoutes())
 	r.Use(cors.Default())
+	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
+	log.Println("Running Router")
 	r.Run()
 }
 

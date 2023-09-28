@@ -10,4 +10,5 @@ const (
 	Put                     // 3
 	Patch                   // 4
 	Delete                  // 5
+	Options                 // 6
 )

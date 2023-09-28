@@ -37,27 +37,56 @@ func (r *Router) Run() {
 
 // Wrapper for the gin engine GET method.
 func (r *Router) Get(route Route) {
-	r.Engine.GET(route.Path+route.Handler, route.HandlerFunc)
+	if route.DecoratorFunc != nil {
+		r.Engine.GET(route.Path+route.Params, route.DecoratorFunc(route.HandlerFunc))
+	}
+
+	r.Engine.GET(route.Path+route.Params, route.HandlerFunc)
 }
 
 // Wrapper for the gin engine POST method.
 func (r *Router) Post(route Route) {
-	r.Engine.POST(route.Path+route.Handler, route.HandlerFunc)
+	if route.DecoratorFunc != nil {
+		r.Engine.POST(route.Path+route.Params, route.DecoratorFunc(route.HandlerFunc))
+	}
+
+	r.Engine.POST(route.Path+route.Params, route.HandlerFunc)
 }
 
 // Wrapper for the gin engine PUT method.
 func (r *Router) Put(route Route) {
-	r.Engine.PUT(route.Path+route.Handler, route.HandlerFunc)
+	if route.DecoratorFunc != nil {
+		r.Engine.PUT(route.Path+route.Params, route.DecoratorFunc(route.HandlerFunc))
+	}
+
+	r.Engine.PUT(route.Path+route.Params, route.HandlerFunc)
 }
 
 // Wrapper for the gin engine PATCH method.
 func (r *Router) Patch(route Route) {
-	r.Engine.PATCH(route.Path+route.Handler, route.HandlerFunc)
+	if route.DecoratorFunc != nil {
+		r.Engine.PATCH(route.Path+route.Params, route.DecoratorFunc(route.HandlerFunc))
+	}
+
+	r.Engine.PATCH(route.Path+route.Params, route.HandlerFunc)
 }
 
 // Wrapper for the gin engine DELETE method.
 func (r *Router) Delete(route Route) {
-	r.Engine.DELETE(route.Path+route.Handler, route.HandlerFunc)
+	if route.DecoratorFunc != nil {
+		r.Engine.DELETE(route.Path+route.Params, route.DecoratorFunc(route.HandlerFunc))
+	}
+
+	r.Engine.DELETE(route.Path+route.Params, route.HandlerFunc)
+}
+
+// Wrapper for the gin engine OPTIONS method.
+func (r *Router) Options(route Route) {
+	if route.DecoratorFunc != nil {
+		r.Engine.OPTIONS(route.Path+route.Params, route.DecoratorFunc(route.HandlerFunc))
+	}
+
+	r.Engine.OPTIONS(route.Path+route.Params, route.HandlerFunc)
 }
 
 // Registers a route.
@@ -68,15 +97,17 @@ func (r *Router) RegisterRoute(route Route) {
 	case Undefined:
 		util.ErrOut(util.ErrUndefinedRouteMethod)
 	case Get:
-		r.Engine.GET(route.Path+route.Handler, route.HandlerFunc)
+		r.Get(route)
 	case Post:
-		r.Engine.POST(route.Path+route.Handler, route.HandlerFunc)
+		r.Post(route)
 	case Put:
-		r.Engine.PUT(route.Path+route.Handler, route.HandlerFunc)
+		r.Put(route)
 	case Patch:
-		r.Engine.PATCH(route.Path+route.Handler, route.HandlerFunc)
+		r.Patch(route)
 	case Delete:
-		r.Engine.DELETE(route.Path+route.Handler, route.HandlerFunc)
+		r.Delete(route)
+	case Options:
+		r.Options(route)
 	}
 }
 
